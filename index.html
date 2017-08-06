@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ <html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+   <meta http-equiv="Content-Type" content="text/html" charset="utf-8" />
+    <title> bitcoin</title>
+<link href="weatherstyle.css" rel="stylesheet" type="text/css" />
+<style type="text/css"></style>
+<script type="text/javascript" src="jsSHA/src/sha256.js"></script>
+</head>
+<body>
+<div id="header"> 
+<p id="headline"> Check Bitcoin Adress </p>
+</div>
+<p><input type="text" name="bitcoin_adress" id="bitcoin_adress" />
+   <input type="button" id="button" name="button" value="Check" onclick="checkAdress();" /></p>
+	<script>
+	function checkAdress() {
+	
+	adress = document.getElementById("bitcoin_adress").value;
+	
+	if (adress.length != 50) { alert ('Invalid adress');}
+	
+	var checkSumm = adress.substr(adress.length - 8);
+	var rest = adress.substr(0, adress.length - 8);
+	
+	for (var i=0; i<2; i++) {
+    var shaObj = new jsSHA("SHA-256", "HEX");
+    shaObj.update(rest);
+    var a = shaObj.getHash("HEX");
+    rest = a;
+    a = 0;
+    }
+	
+	if (toBytes(rest.substr(0, 8)) == toBytes(checkSumm)) { alert ('Valid adress');}
+	else { alert('Invalid adress');}
+	
+	function toBytes(string) {
+    var newString = [];
+    for (var i = 0; i < string.length; i += 2)
+        newString += String.fromCodePoint(parseInt(string.substr(i, 2), 16));
+    return newString;
+    }
+	} 
+  </script>
+</body>
+</html>
